@@ -2,31 +2,53 @@
 <html>
 	<head>
 		<script src="print.js"></script>
+
+		<script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+                let messageSettings = document.getElementById('message-settings');
+
+                messageSettings.addEventListener ("change", function () {
+                    if (messageSettings.value == 'custom'){
+                        document.getElementById("custom-notification").style.visibility = "visible";
+                    }else{
+                        document.getElementById("custom-notification").style.visibility = "hidden";
+                    }
+                });
+            });
+		</script>
 	</head>
 	<body>
 		<h2>Kastenzettel Push</h2>
 		<div>
 			<p style="display:inline-block;width:100px;margin-right:10px;">Notification Empfänger</p>
 			<select id="recipient-settings">
-				<option value="all" selected="">Alle (Unterhalb)</option>
+				<option value="any" selected="">Alle (Unterhalb)</option>
 				<option value="biber">Biber</option>
 				<option value="wolf">Wolf</option>
 				<option value="aetna">Aetna</option>
 				<option value="saturn">Saturn</option>
 				<option value="pio">Pios</option>
+				<option value="devel">Test</option>
 			</select>
 		</div>
 		<div>
 			<p style="display:inline-block;width:100px;margin-right:10px;">Notification Inhalt</p>
-			<select id="page-size-settings">
+			<select id="message-settings">
 				<option value="kasten">Kastenzettel aktualisiert</option>
 				<option value="homescouting">Neue HomeScouting Challange</option>
 				<option value="custom">Eigene</option>
 			</select>
 		</div>
+		<div id="custom-notification" style="visibility: hidden;">
+			<p style="display:inline-block;width:100px;margin-right:10px;">Notification Titel</p>
+			<input type="text" id="title" /><br />
+			<p style="display:inline-block;width:100px;margin-right:10px;">Notification Inhalt</p>
+			<textarea id="body"></textarea><br />
+		</div>
+		<div id="response"></div>
 		<div>
 			<div style="margin-top:15px">
-				<button id="print_button">Notification senden</button>
+				<button id="send_button">Notification senden</button>
 			</div>
 		</div>
 	</body>

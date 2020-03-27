@@ -1,16 +1,20 @@
 {
-  "name": "fcmall",
+  "name": "kastenzettel",
   "version": "0.0.1",
-  "description": "A minimal Electron application",
+  "description": "Eine Software um Push-Notifications an die Nünenen APP zu senden!",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
   },
   "keywords": [
-    "quick"
+    "nünenen",
+    "app",
+    "push-notification",
+    "homescouting"
   ],
   "devDependencies": {
-    "electron": "^8.2.0"
+    "electron": "^8.2.0",
+    "electron-packager": "^14.2.1"
   },
   "dependencies": {
     "firebase-admin": "^8.10.0"

@@ -1,8 +1,9 @@
 const {remote} = require('electron');
-const {BrowserWindow, dialog, shell} = remote;
-const fs = require('fs');
 
-let print_win;
+let recipientSettings;
+let messageSettings;
+let title;
+let content;
 
 var admin = require("firebase-admin");
 
@@ -13,68 +14,127 @@ admin.initializeApp({
   databaseURL: "https://pfadinue.firebaseio.com"
 });
 
-function getPDFPrintSettings() {
-  var recipientSettings = document.getElementById("recipient-settings");
+function buildMessage() {
+  recipientSettings = document.getElementById("recipient-settings").value;
+  messageSettings = document.getElementById("message-settings").value;
 
-  console.log(recipientSettings);
-
-  option.landscape = layoutSetting.options[layoutSetting.selectedIndex].value == 'Landscape';
-  var pageSizeSetting = document.getElementById("page-size-settings");
-  option.pageSize = pageSizeSetting.options[pageSizeSetting.selectedIndex].text;
-  var marginsSetting = document.getElementById("margin-settings");
-  option.marginsType = parseInt(marginsSetting.options[marginsSetting.selectedIndex].value);
-
-  option.printBackground = document.getElementById("print-background").checked;
-  option.printSelectionOnly = document.getElementById("print-selection").checked;
-  return option;
-}
-
-function print() {
-  if (print_win)
-    print_win.webContents.print();
-}
-
-function savePDF() {
-  if (!print_win) {
-    dialog.showErrorBox('Error', "The printing window isn't created");
-    return;
-  }
-  dialog.showSaveDialog(print_win, {}, function(file_path) {
-    if (file_path) {
-      print_win.webContents.printToPDF(getPDFPrintSettings(), function(err, data) {
-        if (err) {
-          dialog.showErrorBox('Error', err);
-          return;
-        }
-        fs.writeFile(file_path, data, function(err) {
-          if (err) {
-            dialog.showErrorBox('Error', err);
-            return;
-          }
-          save_pdf_path = file_path;
-          document.getElementById('output-log').innerHTML = "<p> Write PDF file: " + save_pdf_path + " successfully!</p>";
-        });
-      });
+  if (recipientSettings == 'biber' || recipientSettings == 'any'){
+    if (messageSettings == 'kasten'){
+      title = 'Kastenzettel Biberstein';
+      content = 'Der Kastenzettel der Familie Biberstein wurde aktualisiert.';
+    }else if (messageSettings == 'homescouting'){
+      title = 'Neue HomeScouting Challange';
+      content = 'Es wurde eine neue HomeScouting Challenge veröffentlicht.';
+    }else if (messageSettings == 'custom'){
+      title = document.getElementById('title').value;
+      content = document.getElementById('body').value;
     }
-  });
+
+    sendMessage(recipientSettings, title, content);
+  }
+
+  if (recipientSettings == 'wolf' || recipientSettings == 'any'){
+    if (messageSettings == 'kasten'){
+      title = 'Kastenzettel Phönix';
+      content = 'Der Kastenzettel der Meute Phönix wurde aktualisiert.';
+    }else if (messageSettings == 'homescouting'){
+      title = 'Neue HomeScouting Challange';
+      content = 'Es wurde eine neue HomeScouting Challenge veröffentlicht.';
+    }else if (messageSettings == 'custom'){
+      title = document.getElementById('title').value;
+      content = document.getElementById('body').value;
+    }
+
+    sendMessage(recipientSettings, title, content);
+  }
+
+  if (recipientSettings == 'aetna' || recipientSettings == 'any'){
+    if (messageSettings == 'kasten'){
+      title = 'Kastenzettel Aetna';
+      content = 'Der Kastenzettel vom Stamm Aetna wurde aktualisiert.';
+    }else if (messageSettings == 'homescouting'){
+      title = 'Neue HomeScouting Challange';
+      content = 'Es wurde eine neue HomeScouting Challenge veröffentlicht.';
+    }else if (messageSettings == 'custom'){
+      title = document.getElementById('title').value;
+      content = document.getElementById('body').value;
+    }
+
+    sendMessage(recipientSettings, title, content);
+  }
+
+  if (recipientSettings == 'saturn' || recipientSettings == 'any'){
+    if (messageSettings == 'kasten'){
+      title = 'Kastenzettel Saturn';
+      content = 'Der Kastenzettel vom Trupp Saturn wurde aktualisiert.';
+    }else if (messageSettings == 'homescouting'){
+      title = 'Neue HomeScouting Challange';
+      content = 'Es wurde eine neue HomeScouting Challenge veröffentlicht.';
+    }else if (messageSettings == 'custom'){
+      title = document.getElementById('title').value;
+      content = document.getElementById('body').value;
+    }
+
+    sendMessage(recipientSettings, title, content);
+  }
+
+  if (recipientSettings == 'pio' || recipientSettings == 'any'){
+    if (messageSettings == 'kasten'){
+      title = 'Kastenzettel Pios';
+      content = 'Der Kastenzettel der Pios wurde aktualisiert.';
+    }else if (messageSettings == 'homescouting'){
+      title = 'Neue HomeScouting Challange';
+      content = 'Es wurde eine neue HomeScouting Challenge veröffentlicht.';
+    }else if (messageSettings == 'custom'){
+      title = document.getElementById('title').value;
+      content = document.getElementById('body').value;
+    }
+
+    sendMessage(recipientSettings, title, content);
+  }
+
+  if (recipientSettings == 'devel' || recipientSettings == 'any'){
+    if (messageSettings == 'kasten'){
+      title = '**** KASTENZETTEL TEST ****';
+      content = '**** KASTENZETTEL TEST IHNHALT. ES FUNKTIONIERT ALLES! ****';
+    }else if (messageSettings == 'homescouting'){
+      title = '**** NEUE HOMESCOUTING CHALLANGE TEST ****';
+      content = '**** ES WURDE EINE NEUE HOMESCOUTING CHALLANGE VERÖFFENTLICHT! ****';
+    }else if (messageSettings == 'custom'){
+      title = document.getElementById('title').value;
+      content = document.getElementById('body').value;
+    }
+
+    sendMessage(recipientSettings, title, content);
+  }
 }
 
-function viewPDF() {
-  if (!save_pdf_path) {
-    dialog.showErrorBox('Error', "You should save the pdf before viewing it");
-    return;
-  }
-  shell.openItem(save_pdf_path);
+function sendMessage(topic, title, body){
+  var message = {
+    notification: {
+      title: title,
+      body: body
+    },
+    topic: topic
+  };
+
+// Send a message to devices subscribed to the provided topic.
+  admin.messaging().send(message)
+      .then((response) => {
+        // Response is a message ID string.
+        console.log('Successfully sent message:', response);
+
+        var response = document.getElementById('response');
+        response.innerText = '<p>Push-Nachricht wurde erfolgreich gesendet!</p>';
+      })
+      .catch((error) => {
+        console.log('Error sending message:', error);
+
+        var response = document.getElementById('response');
+        response.innerHTML = '<p>Fehler: Push-nachricht konnte nicht gesendet werden!</p>';
+      });
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-  print_win.show();
-
-  print_win.webContents.on('did-finish-load', function() {
-    document.getElementById('print_button').addEventListener('click', print);
-  });
-
-  print_win.on('closed', function() {
-    print_win = null;
-  });
+  document.getElementById('send_button').addEventListener('click', buildMessage);
 });
