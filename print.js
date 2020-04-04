@@ -19,6 +19,7 @@ function buildMessage() {
   messageSettings = document.getElementById("message-settings").value;
 
   if (recipientSettings == 'biber' || recipientSettings == 'any'){
+
     if (messageSettings == 'kasten'){
       title = 'Kastenzettel Biberstein';
       content = 'Der Kastenzettel der Familie Biberstein wurde aktualisiert.';
@@ -30,7 +31,7 @@ function buildMessage() {
       content = document.getElementById('body').value;
     }
 
-    sendMessage(recipientSettings, title, content);
+    sendMessage('biber', title, content);
   }
 
   if (recipientSettings == 'wolf' || recipientSettings == 'any'){
@@ -45,7 +46,7 @@ function buildMessage() {
       content = document.getElementById('body').value;
     }
 
-    sendMessage(recipientSettings, title, content);
+    sendMessage('wolf', title, content);
   }
 
   if (recipientSettings == 'aetna' || recipientSettings == 'any'){
@@ -60,7 +61,7 @@ function buildMessage() {
       content = document.getElementById('body').value;
     }
 
-    sendMessage(recipientSettings, title, content);
+    sendMessage('aetna', title, content);
   }
 
   if (recipientSettings == 'saturn' || recipientSettings == 'any'){
@@ -75,7 +76,7 @@ function buildMessage() {
       content = document.getElementById('body').value;
     }
 
-    sendMessage(recipientSettings, title, content);
+    sendMessage('saturn', title, content);
   }
 
   if (recipientSettings == 'pio' || recipientSettings == 'any'){
@@ -90,7 +91,7 @@ function buildMessage() {
       content = document.getElementById('body').value;
     }
 
-    sendMessage(recipientSettings, title, content);
+    sendMessage('pio', title, content);
   }
 
   if (recipientSettings == 'devel' || recipientSettings == 'any'){
@@ -105,7 +106,7 @@ function buildMessage() {
       content = document.getElementById('body').value;
     }
 
-    sendMessage(recipientSettings, title, content);
+    sendMessage('devel', title, content);
   }
 }
 

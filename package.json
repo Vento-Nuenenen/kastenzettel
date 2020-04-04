@@ -1,6 +1,6 @@
 {
   "name": "kastenzettel",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Eine Software um Push-Notifications an die Nünenen APP zu senden!",
   "main": "main.js",
   "scripts": {
