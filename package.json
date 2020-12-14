@@ -17,6 +17,6 @@
     "electron-packager": "^15.2.0"
   },
   "dependencies": {
-    "firebase-admin": "^9.4.1"
+    "firebase-admin": "^9.4.2"
   }
 }
