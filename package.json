@@ -13,8 +13,8 @@
     "homescouting"
   ],
   "devDependencies": {
-    "electron": "^11.3.0",
-    "electron-packager": "^15.2.0"
+    "electron": "11.3.0",
+    "electron-packager": "15.2.0"
   },
   "dependencies": {
     "firebase-admin": "^9.5.0"
