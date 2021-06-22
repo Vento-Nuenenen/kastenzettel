@@ -13,7 +13,7 @@
     "homescouting"
   ],
   "devDependencies": {
-    "electron": "13.1.3",
+    "electron": "13.1.4",
     "electron-packager": "15.2.0"
   },
   "dependencies": {
